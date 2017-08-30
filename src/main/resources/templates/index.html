@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>配置账号</title>
+
+    <link href="assets/bootstarp/css/bootstrap.css" rel="stylesheet"/>
+
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            max-width: 600px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+
+    </style>
+
+    <link href="assets/bootstarp/css/bootstrap-responsive.css" rel="stylesheet"/>
+
+    <script src="assets/jquery/js/jquery.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-transition.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-alert.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-modal.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-dropdown.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-tab.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-tooltip.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-popover.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-button.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-collapse.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-carousel.js"></script>
+    <script src="assets/bootstarp/js/bootstrap-typeahead.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!--<form class="form-signin" th:action="@{/setAccount}" method="post">-->
+    <form class="form-signin" id="dataForm">
+        <h2 class="form-signin-heading">请配置七牛云账号</h2>
+        <input type="text" class="input-block-level" placeholder="AccessKey" name="accessKey" id="accessKey"/>
+        <input type="password" class="input-block-level" placeholder="SecretKey" name="secretKey" id="secretKey"/>
+        <input type="text" class="input-block-level" placeholder="CDN域名 格式：http://xxx.xxx.xxx/" name="cdn" id="cdn"/>
+        <input type="text" class="input-block-level" placeholder="空间名" name="bucket" id="bucket"/>
+        <button class="btn btn-large btn-primary" onclick="save()">设置</button>
+    </form>
+
+
+
+</div>
+</body>
+
+<script>
+
+    function save() {
+        var accessKey = document.getElementById("accessKey").value;
+        if (accessKey == "") {
+            alert("AccessKey 不能为空！");
+            return;
+        }
+        var secretKey = document.getElementById("secretKey").value;
+        if (secretKey == "") {
+            alert("SecretKey 不能为空！");
+            return;
+        }
+        var cdn = document.getElementById("cdn").value;
+        if (cdn == "") {
+            alert("CDN域名不能为空！");
+            return;
+        }
+        var reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+        if (!reg.test(cdn)) {
+            alert("CDN域名不是以http://https://开头，或者不是网址！");
+            return;
+        }
+
+        var reg2 = /\$/;
+        if (!reg2.test(cdn)) {
+            cdn = cdn + "/";
+        }
+        var bucket = document.getElementById("bucket").value;
+        if (bucket == "") {
+            alert("空间名不能为空！");
+            return;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '/setAccount',
+            data: {accessKey: accessKey, secretKey: secretKey, cdn: cdn, bucket: bucket},
+            success: function (data) {
+                if (data.retCode == "0000") {
+                    location.href = "/uploadPage";
+                }
+            },
+            error: function (e, xhr, opt) {
+                alert("服务器发生了一个未知错误！");
+            }
+        });
+
+//        $.post("/setAccount", {
+//            accessKey: accessKey,
+//            secretKey: secretKey,
+//            cdn: cdn,
+//            bucket: bucket
+//        }, function (data, status) {
+//            console.log(data.response.retCode);
+//
+//        }, "json");
+
+    }
+
+</script>
+
+</html>
