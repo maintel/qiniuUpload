@@ -56,4 +56,4 @@
 
 下载以后解压缩，配置 qiniu.properties 中的值，
 
-使用 java -jar 命令运行 jar 包，浏览器访问 http://localhost:11555。
+使用 java -jar 命令运行 jar 包，浏览器访问 http://localhost:11555
