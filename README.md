@@ -1,7 +1,7 @@
 # 七牛云图片上传
 使用 bootstarp 文件上传学习，
 
-已经打包好 可以在[这里](http://pan.baidu.com/s/1mh8U0tU)下载
+已经打包好 可以在[这里](http://p9vqtt03h.bkt.clouddn.com/qiniu_upload_single.zip)下载
 
 此分支是私有化定制的上传工具，如果要使用**修改配置文件**，
 
@@ -14,6 +14,14 @@
 干巴爹！
 
 # 使用
+
+## 使用已有的包
+
+下载以后解压缩，配置 qiniu.properties 中的参数；
+
+使用 java -jar 命令运行 jar 包，浏览器访问 http://localhost:11555
+
+## 修改源码
 
 将项目导入 idea；
 
@@ -51,9 +59,3 @@
 - 批量文件上传
 - 支持自动返回私有外链
 - 只支持上传图片类型文件，其他类型可以自己修改源码
-
-# 上传文件
-
-下载以后解压缩，配置 qiniu.properties 中的值，
-
-使用 java -jar 命令运行 jar 包，浏览器访问 http://localhost:11555
